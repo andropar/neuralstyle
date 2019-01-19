@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='UTF-8'>
+        <title>Neural Style Transfer Demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
+    <body>
+        <section class="hero center has-background-light">
+            <div class="hero-body">
+                    <h1 class="title">NEURAL STYLE TRANSFER DEMO</h1>
+            </div>
+        </section>
+        <section class="section">
+            <div class="container">
+                <div class="columns">
+                    <div class="img-select column">
+                        <h2 class="title is-size-4">Choose your own image:</h2>
+
+                        <figure class="image">
+                            <div class="same-size-image" id="ct-img" style="background-image:url({{ url_for('static', filename='img/white.jpg') }});"></div>
+                            <!-- <img id="ct-img" src="{{ url_for('static', filename='img/white.jpg') }}"> -->
+                        </figure>
+                        
+                        <div class="file-upload-box center">
+                            <input id="file-upload" class="inputfile" type="file" name="file-upload" 
+                                    onchange="setContentImage(event)">
+                            <label for="file-upload">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17">
+                                    <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path>
+                                </svg>
+                                <span>Choose a file...</span>
+                            </label>
+                        </div>
+                        
+                        <!-- input class="custom-file-input" type="file" name="img" id="img" onchange="setContentImage(event)"/> -->
+            
+                    </div>
+                    <div class="style-select column">
+                        <h2 class="title is-size-4">Choose a style image:</h2>
+                        <div class="slideshow-container">
+
+                            {% for style in styles %}
+                                <div class="mySlides fade">
+                                    <div class="numbertext">{{ loop.index }}/{{ loop.length }}</div>
+                                    <div class="same-size-image" style="background-image:url({{ style.img_src }});"></div>
+                                    <!-- <figure class="image">
+                                            <img src="{{ style.img_src }}">
+                                    </figure> -->
+                                    <div class="text" style="display: none;">{{ style.name }}</div>
+                                </div>
+                            {% endfor %}
+                            
+                            <a class="prev" onclick="plusSlides(-1)">&#10094</a>
+                            <a class="next" onclick="plusSlides(1)">&#10095</a>
+
+                        </div>
+                        <!-- <div style="text-align:center">
+                            {% for style in styles %}
+                                <span class="dot" onclick="currentSlide({{ loop.index }})"></span>
+                            {% endfor %}
+                        </div> -->
+                    </div>
+                    <div class="result column" id='result'>
+                        <h2 class="title is-size-4">Stylized image:</h2>
+                        <div>
+                            <figure class="image">
+                                    <!-- <img id="load" src="{{ url_for('static', filename='img/load.gif') }}"> -->
+                                    <div class="same-size-image" id="res-img" style="background-image:url({{ url_for('static', filename='img/white.jpg') }});"></div>
+                                    <!-- <img id="res-img" src="{{ url_for('static', filename='img/white.jpg') }}"> -->
+                            </figure>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="container center">
+                    <button type="button" onclick="doStyleTransfer()">Transfer style!</button>
+                </div>
+            </div>         
+        </section>
+        <footer>
+                
+        </footer>
+
+        <script src="{{ url_for('static', filename='javascript/main.js')}}"></script>
+    </body>
+</html>
